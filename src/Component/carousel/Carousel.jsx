@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,12 +6,16 @@ import './style.scss'
 import axios from 'axios'
 import { Button } from "@mui/material";
 export default function SimpleSlider({ data }) {
+    // chạy lần đầu
+    //
     var baseURL = 'https://api.themoviedb.org/3';
     // life cycles
     // hook
+    var [list, setList] = useState([]);
     useEffect(() => {
         var fullURL = baseURL + data;
         axios.get(fullURL).then((res) => {
+            setList(res.data.results);
             console.log(res.data.results);
         }).catch()
     }, []);
@@ -27,54 +31,18 @@ export default function SimpleSlider({ data }) {
     return (
         <div className="carousel">
             <Slider {...settings}>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
-                <div className="carousel__item">
-                    <img src="https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg" alt="" />
-                    <div className="carousel__item__info">
-                        <h3>Spider man: Home coming</h3>
-                        <p>A journalist with a lot to prove investigates the case of Anna Delvey, the Instagram-legendary German heiress who stole the hearts of New York’s socia...</p>
-                        <Button variant="outlined">Outlined</Button>
-                    </div>
-                </div>
+                {list.map(item => {
+                    return (
+                        <div className="carousel__item">
+                            <img src={`https://image.tmdb.org/t/p/original${item.backdrop_path}`} alt="" />
+                            <div className="carousel__item__info">
+                                <h3>{item.name}</h3>
+                                <p>{item.overview}</p>
+                                <Button variant="outlined">Outlined</Button>
+                            </div>
+                        </div>
+                    )
+                })}
             </Slider>
             <div className="carousel__overlay"></div>
         </div>
