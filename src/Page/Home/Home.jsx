@@ -8,6 +8,8 @@ function Home() {
         <div>
             <Header />
             <Carousel data={url.fetchNetflixOriginals} />
+            {/* props */}
+            <Carousel data={url.fetchActionMovies} isPoster={true} />
         </div>
     )
 }
